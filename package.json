@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "tsx watch ./src/app.ts",
     "typecheck": "tsc --noEmit",
-    "test": "vitest run",
+    "test": "vitest",
     "build": "esbuild src/app.ts --bundle --platform=node --format=esm --packages=external --outdir=dist",
     "start": "node ./dist/app.js"
   },
