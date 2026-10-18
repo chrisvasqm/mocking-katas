@@ -1,6 +1,6 @@
 # Mocking Katas
 
-Small TypeScript exercises on mocking and dependency injection: a `VideoService` reads a video title through a `Reader` interface, backed by a real file reader in the app and a fake in tests.
+TypeScript exercises on mocking and dependency injection of external dependencies.
 
 ## Getting started
 
