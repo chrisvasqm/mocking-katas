@@ -6,6 +6,6 @@ describe('VideoService', () => {
   it('reads the title', async () => {
     const service = new VideoService(new FakeFileReader());
 
-    expect(await service.readTitle('video.text')).toBe('fake title');
+    expect(await service.readTitle('video.txt')).toBe('fake title');
   });
 });
