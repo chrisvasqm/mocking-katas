@@ -19,22 +19,25 @@ export class PostController {
 
   async create(request: Request, response: Response) {
     const post = parseRequest(createPostSchema, request.body);
-    response.status(201).send(await this.service.create(post));
+
+    const created = await this.service.create(post);
+
+    response.status(201).send(created);
   }
 
   async delete(request: Request, response: Response) {
     const { id } = parseRequest(postIdSchema, request.params);
 
     const deleted = await this.service.delete(id);
-    if (!deleted) {
-      response.status(404).send({ error: { code: 'NOT_FOUND', message: 'post not found' } });
-      return;
-    }
+    if (!deleted)
+      return response.status(404).send('Post not found.');
+
 
     response.send(deleted);
   }
 
   async deleteAll(_: Request, response: Response) {
-    response.send(await this.service.deleteAll());
+    const deleted = await this.service.deleteAll();
+    response.send(deleted);
   }
 }
