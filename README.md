@@ -25,7 +25,7 @@ pnpm test                     # run vitest in watch mode
 │   ├── config.ts           # reads and checks env vars
 │   ├── validation.ts       # parseRequest helper + RequestValidationError
 │   ├── db/
-│   │   ├── client.ts       # Postgres pool + Drizzle instance
+│   │   ├── client.ts       # Drizzle instance (connection string)
 │   │   └── schema.ts       # Drizzle table definitions
 │   └── posts/              # the posts feature, one file per layer
 │       ├── post.controller.ts
@@ -63,7 +63,7 @@ A [Bruno](https://www.usebruno.com) workspace lives in `bruno/` (`workspace.yml`
 | `GET` | `/posts` | List all posts, newest first. | `200` + posts |
 | `POST` | `/posts` | Create a post. Body: `username` (1–40 chars), `image_url` (http/https URL), `caption` (optional, max 2200 chars). | `201` + post, `400` invalid body |
 | `DELETE` | `/posts` | Delete all posts. | `200` + deleted posts |
-| `DELETE` | `/posts/:id` | Delete a post by id. | `200` + deleted post, `404` not found, `400` invalid id |
+| `DELETE` | `/posts/:id` | Delete a post by id (UUID). | `200` + deleted post, `404` not found, `400` invalid id (not a UUID) |
 
 Errors use one shape: `{ "error": { "code", "message", "details" } }` (`details` only on validation errors).
 

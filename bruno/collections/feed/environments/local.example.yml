@@ -4,5 +4,5 @@ variables:
     value: http://localhost:3000
   - name: id
     value:
-      type: number
+      type: string
       data: ""

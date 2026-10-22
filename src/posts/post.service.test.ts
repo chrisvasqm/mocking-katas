@@ -10,7 +10,7 @@ const newPost: NewPost = {
   caption: 'Mocking with Mosh',
 };
 const post: Post = {
-  id: 1,
+  id: '0b0b4f1e-3c2a-4d6e-9f8a-1b2c3d4e5f60',
   username: 'mosh',
   image_url: 'https://picsum.photos/id/237/1080/1080',
   caption: 'Mocking with Mosh',

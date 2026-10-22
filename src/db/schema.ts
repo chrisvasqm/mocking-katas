@@ -1,9 +1,9 @@
-import { pgTable, serial, text, timestamp } from 'drizzle-orm/pg-core';
+import { pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core';
 
 export const posts = pgTable('posts', {
-  id: serial('id').primaryKey(),
-  username: text('username').notNull(),
-  image_url: text('image_url').notNull(),
-  caption: text('caption').notNull().default(''),
-  created_at: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+  id: uuid().primaryKey().defaultRandom(),
+  username: text().notNull(),
+  image_url: text().notNull(),
+  caption: text().notNull().default(''),
+  created_at: timestamp({ withTimezone: true }).notNull().defaultNow(),
 });

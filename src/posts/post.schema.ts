@@ -7,9 +7,5 @@ export const createPostSchema = z.object({
 });
 
 export const postIdSchema = z.object({
-  id: z
-    .string()
-    .regex(/^\d{1,10}$/)
-    .transform(Number)
-    .pipe(z.number().int().positive().max(2_147_483_647)),
+  id: z.uuid(),
 });
