@@ -1,20 +1,16 @@
-import { UserRepository } from '../users/user.repository.interface.ts';
+import { User } from '../users/user.model.ts';
 import { NewPost, Post } from './post.model.ts';
 import { PostRepository } from './post.repository.interface.ts';
 
 export class PostService {
-  constructor(
-    private readonly repository: PostRepository,
-    private readonly userRepository: UserRepository,
-  ) { }
+  constructor(private readonly repository: PostRepository) { }
 
   findAll(): Promise<Post[]> {
     return this.repository.findAll();
   }
 
-  async create(post: Omit<NewPost, 'reach'>): Promise<Post> {
-    const user = await this.userRepository.findByUsername(post.username);
-    const reach = user?.isPremium ? 1 : 0.7;
+  create(post: Omit<NewPost, 'reach'>, user: User): Promise<Post> {
+    const reach = user.isPremium ? 1 : 0.7;
     return this.repository.create({ ...post, reach });
   }
 
