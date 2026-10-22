@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { Mock, Times } from 'moq.ts';
 import { NewPost, Post } from './post.model.js';
-import { PostRepository } from './post.repository.js';
+import { PostRepository } from './post.repository.interface.js';
 import { PostService } from './post.service.js';
 
 const newPost: NewPost = {

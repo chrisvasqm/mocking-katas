@@ -1,8 +1,8 @@
 import { NewPost, Post } from './post.model.js';
-import { PostRepository } from './post.repository.js';
+import { PostRepository } from './post.repository.interface.js';
 
 export class PostService {
-  constructor(private readonly repository: PostRepository) {}
+  constructor(private readonly repository: PostRepository) { }
 
   findAll(): Promise<Post[]> {
     return this.repository.findAll();
