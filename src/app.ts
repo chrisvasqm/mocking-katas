@@ -13,7 +13,10 @@ app.get('/', (_: Request, response: Response) => {
   response.send({ message: 'Welcome to the Mocking Katas API' });
 });
 
-app.use('/posts', new PostController(new PostService(new DatabasePostRepository(database))).router);
+const repository = new DatabasePostRepository(database);
+const service = new PostService(repository);
+const router = new PostController(service).router;
+app.use('/posts', router);
 
 app.use((_request: Request, response: Response, _next: NextFunction) => {
   response.status(404).send('Page not found');
