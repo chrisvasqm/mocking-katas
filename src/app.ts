@@ -27,6 +27,10 @@ app.use((error: Error & { status?: number }, _req: Request, res: Response, next:
     res.status(413).json({ error: { code: 'PAYLOAD_TOO_LARGE', message: 'request body is too large' } });
     return;
   }
+  if (status === 415) {
+    res.status(415).json({ error: { code: 'UNSUPPORTED_MEDIA_TYPE', message: 'request body encoding is not supported' } });
+    return;
+  }
   if (status < 500) {
     res.status(400).json({ error: { code: 'BAD_REQUEST', message: 'request body is not valid JSON' } });
     return;

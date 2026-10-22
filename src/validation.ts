@@ -3,6 +3,7 @@ import { z } from 'zod';
 export class RequestValidationError extends Error {
   constructor(readonly details: { formErrors: string[]; fieldErrors: Record<string, string[] | undefined> }) {
     super('request is invalid');
+    this.name = 'RequestValidationError';
   }
 }
 
