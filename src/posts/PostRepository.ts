@@ -2,9 +2,9 @@ import { desc, eq } from 'drizzle-orm';
 import { Database } from '../database/client.ts';
 import { posts } from '../database/schema.ts';
 import { NewPost, Post } from './post.model.ts';
-import { PostRepository } from './post.repository.interface.ts';
+import { IPostRepository as IPostRepository } from './IPostRepository.ts';
 
-export class DatabasePostRepository implements PostRepository {
+export class PostRepository implements IPostRepository {
   constructor(private readonly database: Database) { }
 
   findAll(): Promise<Post[]> {

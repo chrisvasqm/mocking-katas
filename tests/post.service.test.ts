@@ -2,8 +2,8 @@ import { isDeepStrictEqual } from 'node:util';
 import { describe, expect, it } from 'vitest';
 import { It, Mock, Times } from 'moq.ts';
 import { CreatePost, NewPost, Post } from '../src/posts/post.model.ts';
-import { PostRepository } from '../src/posts/post.repository.interface.ts';
-import { PostService } from '../src/posts/post.service.ts';
+import { IPostRepository } from '../src/posts/IPostRepository.ts';
+import { PostService } from '../src/posts/PostService.ts';
 
 const newPost: CreatePost = {
   username: 'mosh',
@@ -23,7 +23,7 @@ const withReach = (reach: number) => It.Is<NewPost>(value => isDeepStrictEqual(v
 
 describe('PostService', () => {
   it('gets all posts', async () => {
-    const repository = new Mock<PostRepository>()
+    const repository = new Mock<IPostRepository>()
       .setup(instance => instance.findAll())
       .returnsAsync([post]);
     const service = new PostService(repository.object());
@@ -35,7 +35,7 @@ describe('PostService', () => {
   });
 
   it('creates a post with full reach for a premium user', async () => {
-    const repository = new Mock<PostRepository>()
+    const repository = new Mock<IPostRepository>()
       .setup(instance => instance.create(withReach(1)))
       .returnsAsync(post);
     const service = new PostService(repository.object());
@@ -47,7 +47,7 @@ describe('PostService', () => {
   });
 
   it('creates a post with reduced reach for a regular user', async () => {
-    const repository = new Mock<PostRepository>()
+    const repository = new Mock<IPostRepository>()
       .setup(instance => instance.create(withReach(0.7)))
       .returnsAsync({ ...post, reach: 0.7 });
     const service = new PostService(repository.object());
@@ -59,7 +59,7 @@ describe('PostService', () => {
   });
 
   it('deletes a post', async () => {
-    const repository = new Mock<PostRepository>()
+    const repository = new Mock<IPostRepository>()
       .setup(instance => instance.delete(post.id))
       .returnsAsync(post);
     const service = new PostService(repository.object());

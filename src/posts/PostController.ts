@@ -1,7 +1,7 @@
 import { Request, Response, Router } from 'express';
 import { z } from 'zod';
 import { createPostSchema, postIdSchema } from './post.schema.ts';
-import { PostService } from './post.service.ts';
+import { PostService } from './PostService.ts';
 
 export class PostController {
   readonly router = Router();

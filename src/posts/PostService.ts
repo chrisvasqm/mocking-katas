@@ -1,9 +1,9 @@
 import { User } from '../users/user.model.ts';
 import { CreatePost, Post } from './post.model.ts';
-import { PostRepository } from './post.repository.interface.ts';
+import { IPostRepository } from './IPostRepository.ts';
 
 export class PostService {
-  constructor(private readonly repository: PostRepository) { }
+  constructor(private readonly repository: IPostRepository) { }
 
   findAll(): Promise<Post[]> {
     return this.repository.findAll();

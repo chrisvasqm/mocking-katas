@@ -1,7 +1,7 @@
 import { Post, NewPost } from './post.model.ts';
 
 
-export interface PostRepository {
+export interface IPostRepository {
   findAll(): Promise<Post[]>;
   create(post: NewPost): Promise<Post>;
   delete(id: string): Promise<Post | undefined>;
