@@ -1,10 +1,10 @@
 import express, { NextFunction, Request, Response } from 'express';
-import { config } from './config.js';
-import { database } from './database/client.js';
-import { PostController } from './posts/post.controller.js';
-import { DatabasePostRepository } from './posts/post.database.repository.js';
-import { PostService } from './posts/post.service.js';
-import { RequestValidationError } from './validation.js';
+import { config } from './config.ts';
+import { database } from './database/client.ts';
+import { PostController } from './posts/post.controller.ts';
+import { DatabasePostRepository } from './posts/post.database.repository.ts';
+import { PostService } from './posts/post.service.ts';
+import { RequestValidationError } from './validation.ts';
 
 const app = express();
 app.use(express.json());

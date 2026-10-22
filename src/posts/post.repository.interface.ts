@@ -1,4 +1,4 @@
-import { Post, NewPost } from './post.model.js';
+import { Post, NewPost } from './post.model.ts';
 
 
 export interface PostRepository {

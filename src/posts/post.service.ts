@@ -1,5 +1,5 @@
-import { NewPost, Post } from './post.model.js';
-import { PostRepository } from './post.repository.interface.js';
+import { NewPost, Post } from './post.model.ts';
+import { PostRepository } from './post.repository.interface.ts';
 
 export class PostService {
   constructor(private readonly repository: PostRepository) { }

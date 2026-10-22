@@ -1,7 +1,7 @@
 import { Request, Response, Router } from 'express';
-import { createPostSchema, postIdSchema } from './post.schema.js';
-import { PostService } from './post.service.js';
-import { parseRequest } from '../validation.js';
+import { createPostSchema, postIdSchema } from './post.schema.ts';
+import { PostService } from './post.service.ts';
+import { parseRequest } from '../validation.ts';
 
 export class PostController {
   readonly router = Router();
