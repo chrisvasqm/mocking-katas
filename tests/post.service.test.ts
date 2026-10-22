@@ -4,7 +4,6 @@ import { It, Mock, Times } from 'moq.ts';
 import { NewPost, Post } from '../src/posts/post.model.ts';
 import { PostRepository } from '../src/posts/post.repository.interface.ts';
 import { PostService } from '../src/posts/post.service.ts';
-import { UserRepository } from '../src/users/user.repository.interface.ts';
 
 const newPost: NewPost = {
   username: 'mosh',
@@ -27,7 +26,7 @@ describe('PostService', () => {
     const repository = new Mock<PostRepository>()
       .setup(instance => instance.findAll())
       .returnsAsync([post]);
-    const service = new PostService(repository.object(), new Mock<UserRepository>().object());
+    const service = new PostService(repository.object());
 
     const result = await service.findAll();
 
@@ -36,58 +35,34 @@ describe('PostService', () => {
   });
 
   it('creates a post with full reach for a premium user', async () => {
-    const userRepository = new Mock<UserRepository>()
-      .setup(instance => instance.findByUsername(newPost.username))
-      .returnsAsync({ username: newPost.username, isPremium: true });
     const repository = new Mock<PostRepository>()
       .setup(instance => instance.create(withReach(1)))
       .returnsAsync(post);
-    const service = new PostService(repository.object(), userRepository.object());
+    const service = new PostService(repository.object());
 
-    const result = await service.create(newPost);
+    const result = await service.create(newPost, { isPremium: true });
 
     expect(result).toEqual(post);
     repository.verify(instance => instance.create(withReach(1)), Times.Once());
-    userRepository.verify(instance => instance.findByUsername(newPost.username), Times.Once());
   });
 
   it('creates a post with reduced reach for a regular user', async () => {
-    const userRepository = new Mock<UserRepository>()
-      .setup(instance => instance.findByUsername(newPost.username))
-      .returnsAsync({ username: newPost.username, isPremium: false });
     const repository = new Mock<PostRepository>()
       .setup(instance => instance.create(withReach(0.7)))
       .returnsAsync({ ...post, reach: 0.7 });
-    const service = new PostService(repository.object(), userRepository.object());
+    const service = new PostService(repository.object());
 
-    const result = await service.create(newPost);
-
-    expect(result.reach).toBe(0.7);
-    repository.verify(instance => instance.create(withReach(0.7)), Times.Once());
-    userRepository.verify(instance => instance.findByUsername(newPost.username), Times.Once());
-  });
-
-  it('creates a post with reduced reach for an unknown user', async () => {
-    const userRepository = new Mock<UserRepository>()
-      .setup(instance => instance.findByUsername(newPost.username))
-      .returnsAsync(undefined);
-    const repository = new Mock<PostRepository>()
-      .setup(instance => instance.create(withReach(0.7)))
-      .returnsAsync({ ...post, reach: 0.7 });
-    const service = new PostService(repository.object(), userRepository.object());
-
-    const result = await service.create(newPost);
+    const result = await service.create(newPost, { isPremium: false });
 
     expect(result.reach).toBe(0.7);
     repository.verify(instance => instance.create(withReach(0.7)), Times.Once());
-    userRepository.verify(instance => instance.findByUsername(newPost.username), Times.Once());
   });
 
   it('deletes a post', async () => {
     const repository = new Mock<PostRepository>()
       .setup(instance => instance.delete(post.id))
       .returnsAsync(post);
-    const service = new PostService(repository.object(), new Mock<UserRepository>().object());
+    const service = new PostService(repository.object());
 
     const result = await service.delete(post.id);
 

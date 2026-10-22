@@ -47,8 +47,8 @@ Each layer has one responsibility (Single Responsibility Principle) and only kno
 |---|---|---|
 | Controller | `src/posts/post.controller.ts` | Maps HTTP to service calls: reads the request, picks the status code, writes the response. |
 | Request schema | `src/posts/post.schema.ts` | Defines the valid shape of request bodies and params (Zod). |
-| Service | `src/posts/post.service.ts` | Holds the feed's business logic (for example, a post's `reach` from its author's premium status). Depends on the `PostRepository` and `UserRepository` interfaces, not on Drizzle. |
-| User repository | `src/users/user.memory.repository.ts` | Dummy in-memory users (`username`, `isPremium`): `mosh` is premium, `john` is not. |
+| Service | `src/posts/post.service.ts` | Holds the feed's business logic (for example, a post's `reach` from its author's premium status). Depends on the `PostRepository` interface, not on Drizzle. |
+| User model | `src/users/user.model.ts` | Dummy `User` type with only `isPremium`, passed to `PostService.create`. |
 | Repository | `src/posts/post.repository.ts` | The only code that queries the database (Drizzle). |
 | Model | `src/posts/post.model.ts` | The `Post` and `NewPost` types, inferred from the Drizzle schema. |
 | Drizzle schema | `src/db/schema.ts` | The `posts` table definition, source for the migrations. |
@@ -62,7 +62,7 @@ A [Bruno](https://www.usebruno.com) workspace lives in `bruno/` (`workspace.yml`
 | Method | Path | Description | Responses |
 |---|---|---|---|
 | `GET` | `/posts` | List all posts, newest first. | `200` + posts |
-| `POST` | `/posts` | Create a post. Body: `username` (1–40 chars), `image_url` (http/https URL), `caption` (optional, max 2200 chars). The service sets `reach`: `1` for premium users, `0.7` for everyone else. | `201` + post, `400` invalid body |
+| `POST` | `/posts` | Create a post. Body: `username` (1–40 chars), `image_url` (http/https URL), `caption` (optional, max 2200 chars), `isPremium` (optional boolean, default `false`). The service sets `reach`: `1` when `isPremium` is `true`, `0.7` otherwise. | `201` + post, `400` invalid body |
 | `DELETE` | `/posts` | Delete all posts. | `200` + deleted posts |
 | `DELETE` | `/posts/:id` | Delete a post by id (UUID). | `200` + deleted post, `404` not found, `400` invalid id (not a UUID) |
 
@@ -79,7 +79,7 @@ curl localhost:3000/posts
 ```sh
 curl -X POST localhost:3000/posts \
   -H 'content-type: application/json' \
-  -d '{"username":"mosh","image_url":"https://picsum.photos/id/237/1080/1080","caption":"Mocking with Mosh"}'
+  -d '{"username":"mosh","image_url":"https://picsum.photos/id/237/1080/1080","caption":"Mocking with Mosh","isPremium":true}'
 ```
 
 ### Delete post

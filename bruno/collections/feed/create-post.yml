@@ -12,7 +12,8 @@ http:
       {
         "username": "user_{{$randomUserName}}",
         "image_url": "{{$randomImageUrl}}",
-        "caption": "caption_{{$randomLoremSentence}}"
+        "caption": "caption_{{$randomLoremSentence}}",
+        "isPremium": true
       }
 
 runtime:
