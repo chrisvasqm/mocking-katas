@@ -7,22 +7,22 @@ export class PostController {
   readonly router = Router();
 
   constructor(private readonly service: PostService) {
-    this.router.get('/', this.findAll);
-    this.router.post('/', this.create);
-    this.router.delete('/', this.deleteAll);
-    this.router.delete('/:id', this.delete);
+    this.router.get('/', this.findAll.bind(this));
+    this.router.post('/', this.create.bind(this));
+    this.router.delete('/', this.deleteAll.bind(this));
+    this.router.delete('/:id', this.delete.bind(this));
   }
 
-  readonly findAll = async (_: Request, response: Response) => {
+  async findAll(_: Request, response: Response) {
     response.json(await this.service.findAll());
-  };
+  }
 
-  readonly create = async (request: Request, response: Response) => {
+  async create(request: Request, response: Response) {
     const post = parseRequest(createPostSchema, request.body);
     response.status(201).json(await this.service.create(post));
-  };
+  }
 
-  readonly delete = async (request: Request, response: Response) => {
+  async delete(request: Request, response: Response) {
     const { id } = parseRequest(postIdSchema, request.params);
 
     const deleted = await this.service.delete(id);
@@ -32,9 +32,9 @@ export class PostController {
     }
 
     response.json(deleted);
-  };
+  }
 
-  readonly deleteAll = async (_: Request, response: Response) => {
+  async deleteAll(_: Request, response: Response) {
     response.json(await this.service.deleteAll());
-  };
+  }
 }
