@@ -13,11 +13,13 @@ export class PostRepository implements IPostRepository {
 
   async create(post: NewPost): Promise<Post> {
     const [created] = await this.database.insert(posts).values(post).returning();
+
     return created!;
   }
 
   async delete(id: string): Promise<Post | undefined> {
     const [deleted] = await this.database.delete(posts).where(eq(posts.id, id)).returning();
+
     return deleted;
   }
 
