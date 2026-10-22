@@ -10,16 +10,8 @@ Requires Node 24, pnpm 11, and Docker.
 pnpm install
 cp example.env .env
 docker compose up -d --wait   # Postgres on localhost:5432
-pnpm dev                      # generate + apply migrations, then run src/app.ts with tsx
-```
-
-Other scripts:
-
-```sh
-pnpm test        # run vitest
-pnpm typecheck   # tsc --noEmit
-pnpm build       # bundle to dist/ with esbuild
-pnpm start       # apply migrations, then run the bundle
+pnpm dev                      # generate + apply migrations, then run src/app.ts with tsx in watch mode
+pnpm test                     # run vitest in watch mode
 ```
 
 ## Folder structure

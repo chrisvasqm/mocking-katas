@@ -1,5 +1,5 @@
 allowBuilds:
-  esbuild: true
+  esbuild: true # postinstall for esbuild, pulled in by tsx, vitest and drizzle-kit
 saveExact: true
 minimumReleaseAge: 10080
 trustPolicy: no-downgrade
