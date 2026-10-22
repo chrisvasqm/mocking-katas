@@ -20,4 +20,8 @@ export class DatabasePostRepository implements PostRepository {
     const [deleted] = await this.database.delete(posts).where(eq(posts.id, id)).returning();
     return deleted;
   }
+
+  deleteAll(): Promise<Post[]> {
+    return this.database.delete(posts).returning();
+  }
 }

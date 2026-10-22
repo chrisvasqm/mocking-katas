@@ -15,4 +15,8 @@ export class PostService {
   delete(id: number): Promise<Post | undefined> {
     return this.repository.delete(id);
   }
+
+  deleteAll(): Promise<Post[]> {
+    return this.repository.deleteAll();
+  }
 }
