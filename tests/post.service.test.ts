@@ -1,11 +1,11 @@
 import { isDeepStrictEqual } from 'node:util';
 import { describe, expect, it } from 'vitest';
 import { It, Mock, Times } from 'moq.ts';
-import { NewPost, Post } from '../src/posts/post.model.ts';
+import { CreatePost, NewPost, Post } from '../src/posts/post.model.ts';
 import { PostRepository } from '../src/posts/post.repository.interface.ts';
 import { PostService } from '../src/posts/post.service.ts';
 
-const newPost: NewPost = {
+const newPost: CreatePost = {
   username: 'mosh',
   image_url: 'https://picsum.photos/id/237/1080/1080',
   caption: 'Mocking with Mosh',

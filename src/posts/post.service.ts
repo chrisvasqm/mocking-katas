@@ -1,5 +1,5 @@
 import { User } from '../users/user.model.ts';
-import { NewPost, Post } from './post.model.ts';
+import { CreatePost, Post } from './post.model.ts';
 import { PostRepository } from './post.repository.interface.ts';
 
 export class PostService {
@@ -9,7 +9,7 @@ export class PostService {
     return this.repository.findAll();
   }
 
-  create(post: Omit<NewPost, 'reach'>, user: User): Promise<Post> {
+  create(post: CreatePost, user: User): Promise<Post> {
     const reach = user.isPremium ? 1 : 0.7;
     return this.repository.create({ ...post, reach });
   }
