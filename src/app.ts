@@ -1,14 +1,11 @@
 import express, { NextFunction, Request, Response } from 'express';
 import { config } from './config.js';
-import { db } from './db/client.js';
 import { postRouter } from './posts/post.controller.js';
-import { DrizzlePostRepository } from './posts/post.repository.js';
-import { PostService } from './posts/post.service.js';
 import { RequestValidationError } from './validation.js';
 
 const app = express();
 app.use(express.json());
-app.use('/posts', postRouter(new PostService(new DrizzlePostRepository(db))));
+app.use('/posts', postRouter);
 
 app.use((_req: Request, res: Response) => {
   res.status(404).json({ error: { code: 'NOT_FOUND', message: 'route not found' } });

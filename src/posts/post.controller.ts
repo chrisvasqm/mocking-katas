@@ -1,31 +1,39 @@
-import { Router } from 'express';
+import { Request, Response, Router } from 'express';
+import { db } from '../db/client.js';
 import { createPostSchema, postIdSchema } from './post.schema.js';
+import { DrizzlePostRepository } from './post.repository.js';
 import { PostService } from './post.service.js';
 import { parseRequest } from '../validation.js';
 
-export function postRouter(service: PostService) {
-  const router = Router();
+export class PostController {
+  readonly router = Router();
 
-  router.get('/', async (_req, res) => {
-    res.json(await service.findAll());
-  });
+  constructor(private readonly service: PostService) {
+    this.router.get('/', this.findAll);
+    this.router.post('/', this.create);
+    this.router.delete('/:id', this.delete);
+  }
 
-  router.post('/', async (req, res) => {
+  findAll = async (_req: Request, res: Response) => {
+    res.json(await this.service.findAll());
+  };
+
+  create = async (req: Request, res: Response) => {
     const post = parseRequest(createPostSchema, req.body);
-    res.status(201).json(await service.create(post));
-  });
+    res.status(201).json(await this.service.create(post));
+  };
 
-  router.delete('/:id', async (req, res) => {
+  delete = async (req: Request, res: Response) => {
     const { id } = parseRequest(postIdSchema, req.params);
 
-    const deleted = await service.delete(id);
+    const deleted = await this.service.delete(id);
     if (!deleted) {
       res.status(404).json({ error: { code: 'NOT_FOUND', message: 'post not found' } });
       return;
     }
 
     res.json(deleted);
-  });
-
-  return router;
+  };
 }
+
+export const postRouter = new PostController(new PostService(new DrizzlePostRepository(db))).router;
