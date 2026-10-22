@@ -8,7 +8,7 @@ export class DatabasePostRepository implements PostRepository {
   constructor(private readonly database: Database) { }
 
   findAll(): Promise<Post[]> {
-    return this.database.select().from(posts).orderBy(desc(posts.created_at), desc(posts.id));
+    return this.database.select().from(posts).orderBy(desc(posts.created_at));
   }
 
   async create(post: NewPost): Promise<Post> {
