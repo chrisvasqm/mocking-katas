@@ -8,6 +8,11 @@ import { PostService } from './posts/post.service.ts';
 
 const app = express();
 app.use(express.json());
+
+app.get('/', (_request: Request, response: Response) => {
+  response.json({ message: 'Welcome to the Mocking Katas API' });
+});
+
 app.use('/posts', new PostController(new PostService(new DatabasePostRepository(database))).router);
 
 app.use((_: Request, response: Response) => {
