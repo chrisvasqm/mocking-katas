@@ -9,6 +9,7 @@ export class PostController {
   constructor(private readonly service: PostService) {
     this.router.get('/', this.findAll);
     this.router.post('/', this.create);
+    this.router.delete('/', this.deleteAll);
     this.router.delete('/:id', this.delete);
   }
 
@@ -31,5 +32,9 @@ export class PostController {
     }
 
     res.json(deleted);
+  };
+
+  readonly deleteAll = async (_req: Request, res: Response) => {
+    res.json(await this.service.deleteAll());
   };
 }
