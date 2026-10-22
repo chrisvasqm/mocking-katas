@@ -31,6 +31,9 @@ pnpm start             # run the bundle
 
 ## API
 
+A [Bruno](https://www.usebruno.com) collection lives in `bruno/`. Open it, pick the `local` environment (`domain`, `id`), and run **Create post**: it stores the new post's id in `id`, so **Delete post** removes that post.
+
+
 ```sh
 curl -X POST localhost:3000/posts -H 'content-type: application/json' \
   -d '{"username":"mosh","imageUrl":"https://picsum.photos/id/237/1080/1080","caption":"Mocking with Mosh"}'  # 201 + post
