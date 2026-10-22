@@ -1,8 +1,10 @@
+import { isDeepStrictEqual } from 'node:util';
 import { describe, expect, it } from 'vitest';
-import { Mock, Times } from 'moq.ts';
+import { It, Mock, Times } from 'moq.ts';
 import { NewPost, Post } from '../src/posts/post.model.ts';
 import { PostRepository } from '../src/posts/post.repository.interface.ts';
 import { PostService } from '../src/posts/post.service.ts';
+import { UserRepository } from '../src/users/user.repository.interface.ts';
 
 const newPost: NewPost = {
   username: 'mosh',
@@ -14,15 +16,18 @@ const post: Post = {
   username: 'mosh',
   image_url: 'https://picsum.photos/id/237/1080/1080',
   caption: 'Mocking with Mosh',
+  reach: 1,
   created_at: new Date('2026-10-21T12:00:00Z'),
 };
+
+const withReach = (reach: number) => It.Is<NewPost>(value => isDeepStrictEqual(value, { ...newPost, reach }));
 
 describe('PostService', () => {
   it('gets all posts', async () => {
     const repository = new Mock<PostRepository>()
       .setup(instance => instance.findAll())
       .returnsAsync([post]);
-    const service = new PostService(repository.object());
+    const service = new PostService(repository.object(), new Mock<UserRepository>().object());
 
     const result = await service.findAll();
 
@@ -30,23 +35,59 @@ describe('PostService', () => {
     repository.verify(instance => instance.findAll(), Times.Once());
   });
 
-  it('creates a post', async () => {
+  it('creates a post with full reach for a premium user', async () => {
+    const userRepository = new Mock<UserRepository>()
+      .setup(instance => instance.findByUsername(newPost.username))
+      .returnsAsync({ username: newPost.username, isPremium: true });
     const repository = new Mock<PostRepository>()
-      .setup(instance => instance.create(newPost))
+      .setup(instance => instance.create(withReach(1)))
       .returnsAsync(post);
-    const service = new PostService(repository.object());
+    const service = new PostService(repository.object(), userRepository.object());
 
     const result = await service.create(newPost);
 
     expect(result).toEqual(post);
-    repository.verify(instance => instance.create(newPost), Times.Once());
+    repository.verify(instance => instance.create(withReach(1)), Times.Once());
+    userRepository.verify(instance => instance.findByUsername(newPost.username), Times.Once());
+  });
+
+  it('creates a post with reduced reach for a regular user', async () => {
+    const userRepository = new Mock<UserRepository>()
+      .setup(instance => instance.findByUsername(newPost.username))
+      .returnsAsync({ username: newPost.username, isPremium: false });
+    const repository = new Mock<PostRepository>()
+      .setup(instance => instance.create(withReach(0.7)))
+      .returnsAsync({ ...post, reach: 0.7 });
+    const service = new PostService(repository.object(), userRepository.object());
+
+    const result = await service.create(newPost);
+
+    expect(result.reach).toBe(0.7);
+    repository.verify(instance => instance.create(withReach(0.7)), Times.Once());
+    userRepository.verify(instance => instance.findByUsername(newPost.username), Times.Once());
+  });
+
+  it('creates a post with reduced reach for an unknown user', async () => {
+    const userRepository = new Mock<UserRepository>()
+      .setup(instance => instance.findByUsername(newPost.username))
+      .returnsAsync(undefined);
+    const repository = new Mock<PostRepository>()
+      .setup(instance => instance.create(withReach(0.7)))
+      .returnsAsync({ ...post, reach: 0.7 });
+    const service = new PostService(repository.object(), userRepository.object());
+
+    const result = await service.create(newPost);
+
+    expect(result.reach).toBe(0.7);
+    repository.verify(instance => instance.create(withReach(0.7)), Times.Once());
+    userRepository.verify(instance => instance.findByUsername(newPost.username), Times.Once());
   });
 
   it('deletes a post', async () => {
     const repository = new Mock<PostRepository>()
       .setup(instance => instance.delete(post.id))
       .returnsAsync(post);
-    const service = new PostService(repository.object());
+    const service = new PostService(repository.object(), new Mock<UserRepository>().object());
 
     const result = await service.delete(post.id);
 

@@ -1,0 +1,1 @@
+ALTER TABLE "posts" ADD COLUMN "reach" real DEFAULT 0.7 NOT NULL;
