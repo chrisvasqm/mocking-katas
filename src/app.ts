@@ -9,7 +9,7 @@ import { PostService } from './posts/post.service.ts';
 const app = express();
 app.use(express.json());
 
-app.get('/', (_request: Request, response: Response) => {
+app.get('/', (_: Request, response: Response) => {
   response.json({ message: 'Welcome to the Mocking Katas API' });
 });
 
