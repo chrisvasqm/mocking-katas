@@ -4,6 +4,7 @@ import { db } from './db/client.js';
 import { postRouter } from './posts/post.controller.js';
 import { DrizzlePostRepository } from './posts/post.repository.js';
 import { PostService } from './posts/post.service.js';
+import { RequestValidationError } from './validation.js';
 
 const app = express();
 app.use(express.json());
@@ -16,9 +17,18 @@ app.use((_req: Request, res: Response) => {
 app.use((error: Error & { status?: number }, _req: Request, res: Response, next: NextFunction) => {
   if (res.headersSent) return next(error);
 
+  if (error instanceof RequestValidationError) {
+    res.status(400).json({ error: { code: 'VALIDATION_ERROR', message: error.message, details: error.details } });
+    return;
+  }
+
   const status = error.status ?? 500;
   if (status === 413) {
     res.status(413).json({ error: { code: 'PAYLOAD_TOO_LARGE', message: 'request body is too large' } });
+    return;
+  }
+  if (status === 415) {
+    res.status(415).json({ error: { code: 'UNSUPPORTED_MEDIA_TYPE', message: 'request body encoding is not supported' } });
     return;
   }
   if (status < 500) {
