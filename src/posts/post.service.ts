@@ -12,7 +12,7 @@ export class PostService {
     return this.repository.findAll();
   }
 
-  async create(post: NewPost): Promise<Post> {
+  async create(post: Omit<NewPost, 'reach'>): Promise<Post> {
     const user = await this.userRepository.findByUsername(post.username);
     const reach = user?.isPremium ? 1 : 0.7;
     return this.repository.create({ ...post, reach });
