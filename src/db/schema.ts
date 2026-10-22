@@ -5,5 +5,5 @@ export const posts = pgTable('posts', {
   username: text('username').notNull(),
   image_url: text('image_url').notNull(),
   caption: text('caption').notNull().default(''),
-  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+  created_at: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
 });

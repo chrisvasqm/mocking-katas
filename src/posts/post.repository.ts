@@ -13,7 +13,7 @@ export class DrizzlePostRepository implements PostRepository {
   constructor(private readonly db: Database) {}
 
   findAll(): Promise<Post[]> {
-    return this.db.select().from(posts).orderBy(desc(posts.createdAt), desc(posts.id));
+    return this.db.select().from(posts).orderBy(desc(posts.created_at), desc(posts.id));
   }
 
   async create(post: NewPost): Promise<Post> {
