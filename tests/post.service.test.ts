@@ -24,7 +24,9 @@ describe('PostService', () => {
       .returnsAsync([post]);
     const service = new PostService(repository.object());
 
-    expect(await service.findAll()).toEqual([post]);
+    const result = await service.findAll();
+
+    expect(result).toEqual([post]);
     repository.verify(instance => instance.findAll(), Times.Once());
   });
 
@@ -34,7 +36,9 @@ describe('PostService', () => {
       .returnsAsync(post);
     const service = new PostService(repository.object());
 
-    expect(await service.create(newPost)).toEqual(post);
+    const result = await service.create(newPost);
+
+    expect(result).toEqual(post);
     repository.verify(instance => instance.create(newPost), Times.Once());
   });
 
@@ -44,7 +48,9 @@ describe('PostService', () => {
       .returnsAsync(post);
     const service = new PostService(repository.object());
 
-    expect(await service.delete(post.id)).toEqual(post);
+    const result = await service.delete(post.id);
+
+    expect(result).toEqual(post);
     repository.verify(instance => instance.delete(post.id), Times.Once());
   });
 });
