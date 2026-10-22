@@ -1,7 +1,6 @@
-import { isDeepStrictEqual } from 'node:util';
 import { describe, expect, it } from 'vitest';
-import { It, Mock, Times } from 'moq.ts';
-import { CreatePost, NewPost, Post } from '../src/posts/post.model.ts';
+import { EqualMatchingInjectorConfig, Mock, Times } from 'moq.ts';
+import { CreatePost, Post } from '../src/posts/post.model.ts';
 import { IPostRepository } from '../src/posts/IPostRepository.ts';
 import { PostService } from '../src/posts/PostService.ts';
 
@@ -19,8 +18,6 @@ const post: Post = {
   created_at: new Date('2026-10-21T12:00:00Z'),
 };
 
-const withReach = (reach: number) => It.Is<NewPost>(value => isDeepStrictEqual(value, { ...newPost, reach }));
-
 describe('PostService', () => {
   it('gets all posts', async () => {
     const repository = new Mock<IPostRepository>()
@@ -35,27 +32,27 @@ describe('PostService', () => {
   });
 
   it('creates a post with full reach for a premium user', async () => {
-    const repository = new Mock<IPostRepository>()
-      .setup(instance => instance.create(withReach(1)))
+    const repository = new Mock<IPostRepository>({ injectorConfig: new EqualMatchingInjectorConfig() })
+      .setup(instance => instance.create({ ...newPost, reach: 1 }))
       .returnsAsync(post);
     const service = new PostService(repository.object());
 
     const result = await service.create(newPost, { isPremium: true });
 
     expect(result).toEqual(post);
-    repository.verify(instance => instance.create(withReach(1)), Times.Once());
+    repository.verify(instance => instance.create({ ...newPost, reach: 1 }), Times.Once());
   });
 
   it('creates a post with reduced reach for a regular user', async () => {
-    const repository = new Mock<IPostRepository>()
-      .setup(instance => instance.create(withReach(0.7)))
+    const repository = new Mock<IPostRepository>({ injectorConfig: new EqualMatchingInjectorConfig() })
+      .setup(instance => instance.create({ ...newPost, reach: 0.7 }))
       .returnsAsync({ ...post, reach: 0.7 });
     const service = new PostService(repository.object());
 
     const result = await service.create(newPost, { isPremium: false });
 
     expect(result.reach).toBe(0.7);
-    repository.verify(instance => instance.create(withReach(0.7)), Times.Once());
+    repository.verify(instance => instance.create({ ...newPost, reach: 0.7 }), Times.Once());
   });
 
   it('deletes a post', async () => {
