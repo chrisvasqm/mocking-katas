@@ -56,7 +56,7 @@ Each layer has one responsibility (Single Responsibility Principle) and only kno
 
 ## API
 
-A [Bruno](https://www.usebruno.com) workspace lives in `bruno/` (`workspace.yml`), with the **Mocking Feed** collection in `bruno/collections/feed/`. Open the workspace and pick the `local` environment (`domain`, `id`). **Create post** stores the new post's id in `id`, so **Delete post** removes that post.
+A [Bruno](https://www.usebruno.com) workspace lives in `bruno/` (`workspace.yml`), with the **Mocking Feed** collection in `bruno/collections/feed/`. Copy `environments/local.example.yml` to `environments/local.yml` (gitignored) and set `name: local`, then open the workspace and pick the `local` environment (`domain`, `id`). **Create post** stores the new post's id in `id`, so **Delete post** removes that post.
 
 | Method | Path | Description | Responses |
 |---|---|---|---|
