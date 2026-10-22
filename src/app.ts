@@ -1,6 +1,6 @@
 import express, { NextFunction, Request, Response } from 'express';
 import { config } from './config.js';
-import { database } from './db/client.js';
+import { database } from './database/client.js';
 import { PostController } from './posts/post.controller.js';
 import { DatabasePostRepository } from './posts/post.database.repository.js';
 import { PostService } from './posts/post.service.js';

@@ -1,6 +1,6 @@
 import { desc, eq } from 'drizzle-orm';
-import { Database } from '../db/client.js';
-import { posts } from '../db/schema.js';
+import { Database } from '../database/client.js';
+import { posts } from '../database/schema.js';
 import { NewPost, Post } from './post.model.js';
 import { PostRepository } from './post.repository.interface.js';
 
