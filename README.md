@@ -21,7 +21,7 @@ Requires Node 24, pnpm 11, and Docker.
 ```sh
 pnpm install
 cp .env.example .env
-docker compose up -d   # Postgres on localhost:5432
+docker compose up -d --wait   # Postgres on localhost:5432
 pnpm dev               # generate + apply migrations, then run src/app.ts with tsx
 pnpm test              # run vitest
 pnpm typecheck         # tsc --noEmit

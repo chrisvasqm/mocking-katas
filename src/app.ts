@@ -17,8 +17,12 @@ app.use((error: Error & { status?: number }, _req: Request, res: Response, next:
   if (res.headersSent) return next(error);
 
   const status = error.status ?? 500;
+  if (status === 413) {
+    res.status(413).json({ error: { code: 'PAYLOAD_TOO_LARGE', message: 'request body is too large' } });
+    return;
+  }
   if (status < 500) {
-    res.status(status).json({ error: { code: 'BAD_REQUEST', message: error.message } });
+    res.status(400).json({ error: { code: 'BAD_REQUEST', message: 'request body is not valid JSON' } });
     return;
   }
 
