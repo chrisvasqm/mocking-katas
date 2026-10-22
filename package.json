@@ -8,7 +8,7 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest",
     "build": "esbuild src/app.ts --bundle --platform=node --format=esm --packages=external --outdir=dist",
-    "start": "node ./dist/app.js",
+    "start": "drizzle-kit migrate && node ./dist/app.js",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate"
   },
