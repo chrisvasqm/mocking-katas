@@ -1,8 +1,8 @@
 import { desc, eq } from 'drizzle-orm';
-import { Database } from '../database/client.js';
-import { posts } from '../database/schema.js';
-import { NewPost, Post } from './post.model.js';
-import { PostRepository } from './post.repository.interface.js';
+import { Database } from '../database/client.ts';
+import { posts } from '../database/schema.ts';
+import { NewPost, Post } from './post.model.ts';
+import { PostRepository } from './post.repository.interface.ts';
 
 export class DatabasePostRepository implements PostRepository {
   constructor(private readonly database: Database) { }
