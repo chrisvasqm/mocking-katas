@@ -1,7 +1,5 @@
 import { Request, Response, Router } from 'express';
-import { db } from '../db/client.js';
 import { createPostSchema, postIdSchema } from './post.schema.js';
-import { DrizzlePostRepository } from './post.repository.js';
 import { PostService } from './post.service.js';
 import { parseRequest } from '../validation.js';
 
@@ -35,5 +33,3 @@ export class PostController {
     res.json(deleted);
   };
 }
-
-export const postRouter = new PostController(new PostService(new DrizzlePostRepository(db))).router;
