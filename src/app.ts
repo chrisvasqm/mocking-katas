@@ -1,4 +1,5 @@
 import express, { NextFunction, Request, Response } from 'express';
+import { z } from 'zod';
 import { config } from './config.js';
 import { db } from './db/client.js';
 import { postRouter } from './posts/post.controller.js';
@@ -15,6 +16,13 @@ app.use((_req: Request, res: Response) => {
 
 app.use((error: Error & { status?: number }, _req: Request, res: Response, next: NextFunction) => {
   if (res.headersSent) return next(error);
+
+  if (error instanceof z.ZodError) {
+    res.status(400).json({
+      error: { code: 'VALIDATION_ERROR', message: 'request is invalid', details: z.flattenError(error).fieldErrors },
+    });
+    return;
+  }
 
   const status = error.status ?? 500;
   if (status === 413) {
