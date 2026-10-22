@@ -1,0 +1,12 @@
+info:
+  name: Get posts
+  type: http
+  seq: 1
+
+http:
+  method: GET
+  url: '{{domain}}/posts'
+  auth: none
+
+settings:
+  encodeUrl: true
