@@ -10,13 +10,13 @@ const app = express();
 app.use(express.json());
 
 app.get('/', (_: Request, response: Response) => {
-  response.json({ message: 'Welcome to the Mocking Katas API' });
+  response.send({ message: 'Welcome to the Mocking Katas API' });
 });
 
 app.use('/posts', new PostController(new PostService(new DatabasePostRepository(database))).router);
 
 app.use((_: Request, response: Response) => {
-  response.status(404).json({ error: { code: 'NOT_FOUND', message: 'route not found' } });
+  response.status(404).send({ error: { code: 'NOT_FOUND', message: 'route not found' } });
 });
 
 app.use(errorMiddleware);

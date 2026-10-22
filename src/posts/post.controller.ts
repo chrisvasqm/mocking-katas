@@ -14,12 +14,12 @@ export class PostController {
   }
 
   async findAll(_: Request, response: Response) {
-    response.json(await this.service.findAll());
+    response.send(await this.service.findAll());
   }
 
   async create(request: Request, response: Response) {
     const post = parseRequest(createPostSchema, request.body);
-    response.status(201).json(await this.service.create(post));
+    response.status(201).send(await this.service.create(post));
   }
 
   async delete(request: Request, response: Response) {
@@ -27,14 +27,14 @@ export class PostController {
 
     const deleted = await this.service.delete(id);
     if (!deleted) {
-      response.status(404).json({ error: { code: 'NOT_FOUND', message: 'post not found' } });
+      response.status(404).send({ error: { code: 'NOT_FOUND', message: 'post not found' } });
       return;
     }
 
-    response.json(deleted);
+    response.send(deleted);
   }
 
   async deleteAll(_: Request, response: Response) {
-    response.json(await this.service.deleteAll());
+    response.send(await this.service.deleteAll());
   }
 }
