@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { RequestValidationError } from '../validation.ts';
 
-export function errorMiddleware(error: Error & { status?: number }, _request: Request, response: Response, next: NextFunction) {
+export function errorMiddleware(error: Error & { status?: number }, _: Request, response: Response, next: NextFunction) {
   if (response.headersSent) return next(error);
 
   if (error instanceof RequestValidationError) {
