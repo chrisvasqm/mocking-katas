@@ -1,7 +1,8 @@
 name: local
-
 variables:
   - name: domain
     value: http://localhost:3000
   - name: id
-    value: "1"
+    value:
+      type: number
+      data: "8"

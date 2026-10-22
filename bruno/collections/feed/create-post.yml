@@ -5,16 +5,15 @@ info:
 
 http:
   method: POST
-  url: '{{domain}}/posts'
+  url: "{{domain}}/posts"
   body:
     type: json
     data: |-
       {
         "username": "user_{{$randomUserName}}",
         "image_url": "{{$randomImageUrl}}",
-        "caption": "caption: {{$randomLoremSentence}}"
+        "caption": "caption_{{$randomLoremSentence}}"
       }
-  auth: none
 
 runtime:
   scripts:
@@ -26,3 +25,7 @@ runtime:
 
 settings:
   encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: true
