@@ -1,4 +1,4 @@
-import express, { Request, Response } from 'express';
+import express, { Request, Response, NextFunction } from 'express';
 import { config } from './config.ts';
 import { database } from './database/client.ts';
 import { errorMiddleware } from './middleware/error.middleware.ts';
@@ -15,8 +15,8 @@ app.get('/', (_: Request, response: Response) => {
 
 app.use('/posts', new PostController(new PostService(new DatabasePostRepository(database))).router);
 
-app.use((_: Request, response: Response) => {
-  response.status(404).send({ error: { code: 'NOT_FOUND', message: 'route not found' } });
+app.use((_request: Request, response: Response, _next: NextFunction) => {
+  response.status(404).send('Page not found');
 });
 
 app.use(errorMiddleware);
