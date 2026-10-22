@@ -11,6 +11,7 @@ export class PostService {
 
   create(post: CreatePost, user: User): Promise<Post> {
     const reach = user.isPremium ? 1 : 0.7;
+
     return this.repository.create({ ...post, reach });
   }
 
