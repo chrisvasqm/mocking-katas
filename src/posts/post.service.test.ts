@@ -6,13 +6,13 @@ import { PostService } from './post.service.js';
 
 const newPost: NewPost = {
   username: 'mosh',
-  imageUrl: 'https://picsum.photos/id/237/1080/1080',
+  image_url: 'https://picsum.photos/id/237/1080/1080',
   caption: 'Mocking with Mosh',
 };
 const post: Post = {
   id: 1,
   username: 'mosh',
-  imageUrl: 'https://picsum.photos/id/237/1080/1080',
+  image_url: 'https://picsum.photos/id/237/1080/1080',
   caption: 'Mocking with Mosh',
   createdAt: new Date('2026-10-21T12:00:00Z'),
 };

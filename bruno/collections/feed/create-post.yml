@@ -11,7 +11,7 @@ http:
     data: |-
       {
         "username": "user_{{$randomUserName}}",
-        "imageUrl": "{{$randomImageUrl}}",
+        "image_url": "{{$randomImageUrl}}",
         "caption": "caption: {{$randomLoremSentence}}"
       }
   auth: none

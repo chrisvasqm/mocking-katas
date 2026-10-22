@@ -37,6 +37,6 @@ A [Bruno](https://www.usebruno.com) workspace lives in `bruno/` (`workspace.yml`
 ```sh
 curl localhost:3000/posts                                                                                  # 200 + posts, newest first
 curl -X POST localhost:3000/posts -H 'content-type: application/json' \
-  -d '{"username":"mosh","imageUrl":"https://picsum.photos/id/237/1080/1080","caption":"Mocking with Mosh"}'  # 201 + post
+  -d '{"username":"mosh","image_url":"https://picsum.photos/id/237/1080/1080","caption":"Mocking with Mosh"}'  # 201 + post
 curl -X DELETE localhost:3000/posts/1                                                                      # 200 + deleted post, 404, or 400 (bad id)
 ```
