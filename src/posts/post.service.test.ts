@@ -18,6 +18,16 @@ const post: Post = {
 };
 
 describe('PostService', () => {
+  it('gets all posts', async () => {
+    const repository = new Mock<PostRepository>()
+      .setup(instance => instance.findAll())
+      .returnsAsync([post]);
+    const service = new PostService(repository.object());
+
+    expect(await service.findAll()).toEqual([post]);
+    repository.verify(instance => instance.findAll(), Times.Once());
+  });
+
   it('creates a post', async () => {
     const repository = new Mock<PostRepository>()
       .setup(instance => instance.create(newPost))

@@ -21,6 +21,10 @@ const isCaption = (value: unknown): value is string => typeof value === 'string'
 export function postRouter(service: PostService) {
   const router = Router();
 
+  router.get('/', async (_req, res) => {
+    res.json(await service.findAll());
+  });
+
   router.post('/', async (req, res) => {
     const { username, imageUrl, caption = '' } = req.body ?? {};
     if (!isUsername(username) || !isHttpUrl(imageUrl) || !isCaption(caption)) {
