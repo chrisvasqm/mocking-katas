@@ -12,16 +12,16 @@ export class PostController {
     this.router.delete('/:id', this.delete);
   }
 
-  findAll = async (_req: Request, res: Response) => {
+  readonly findAll = async (_req: Request, res: Response) => {
     res.json(await this.service.findAll());
   };
 
-  create = async (req: Request, res: Response) => {
+  readonly create = async (req: Request, res: Response) => {
     const post = parseRequest(createPostSchema, req.body);
     res.status(201).json(await this.service.create(post));
   };
 
-  delete = async (req: Request, res: Response) => {
+  readonly delete = async (req: Request, res: Response) => {
     const { id } = parseRequest(postIdSchema, req.params);
 
     const deleted = await this.service.delete(id);
