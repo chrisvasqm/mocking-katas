@@ -25,7 +25,7 @@ pnpm test                     # run vitest in watch mode
 │   ├── config.ts           # reads and checks env vars
 │   ├── validation.ts       # parseRequest helper + RequestValidationError
 │   ├── db/
-│   │   ├── client.ts       # Postgres pool + Drizzle instance
+│   │   ├── client.ts       # Drizzle instance (connection string)
 │   │   └── schema.ts       # Drizzle table definitions
 │   └── posts/              # the posts feature, one file per layer
 │       ├── post.controller.ts
