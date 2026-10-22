@@ -3,24 +3,34 @@ import { PostService } from './post.service.js';
 
 const MAX_INT = 2_147_483_647;
 
-const isNonEmptyString = (value: unknown): value is string => typeof value === 'string' && value.trim() !== '';
+const MAX_USERNAME = 30;
+const MAX_URL = 2048;
+const MAX_CAPTION = 2200;
+
+const isUsername = (value: unknown): value is string =>
+  typeof value === 'string' && value.trim() !== '' && value.trim().length <= MAX_USERNAME;
 
 const isHttpUrl = (value: unknown): value is string =>
-  typeof value === 'string' && URL.canParse(value) && ['http:', 'https:'].includes(new URL(value).protocol);
+  typeof value === 'string' &&
+  value.length <= MAX_URL &&
+  URL.canParse(value) &&
+  ['http:', 'https:'].includes(new URL(value).protocol);
+
+const isCaption = (value: unknown): value is string => typeof value === 'string' && value.length <= MAX_CAPTION;
 
 export function postRouter(service: PostService) {
   const router = Router();
 
   router.post('/', async (req, res) => {
     const { username, imageUrl, caption = '' } = req.body ?? {};
-    if (!isNonEmptyString(username) || !isHttpUrl(imageUrl) || typeof caption !== 'string') {
+    if (!isUsername(username) || !isHttpUrl(imageUrl) || !isCaption(caption)) {
       res.status(400).json({
-        error: { code: 'VALIDATION_ERROR', message: 'username and an http(s) imageUrl are required; caption must be text' },
+        error: { code: 'VALIDATION_ERROR', message: `username (max ${MAX_USERNAME}) and an http(s) imageUrl are required; caption max ${MAX_CAPTION}` },
       });
       return;
     }
 
-    res.status(201).json(await service.create({ username, imageUrl, caption }));
+    res.status(201).json(await service.create({ username: username.trim(), imageUrl, caption }));
   });
 
   router.delete('/:id', async (req, res) => {
