@@ -7,34 +7,34 @@ export class PostController {
   readonly router = Router();
 
   constructor(private readonly service: PostService) {
-    this.router.get('/', this.findAll);
-    this.router.post('/', this.create);
-    this.router.delete('/', this.deleteAll);
-    this.router.delete('/:id', this.delete);
+    this.router.get('/', this.findAll.bind(this));
+    this.router.post('/', this.create.bind(this));
+    this.router.delete('/', this.deleteAll.bind(this));
+    this.router.delete('/:id', this.delete.bind(this));
   }
 
-  readonly findAll = async (_req: Request, res: Response) => {
-    res.json(await this.service.findAll());
-  };
+  async findAll(_: Request, response: Response) {
+    response.json(await this.service.findAll());
+  }
 
-  readonly create = async (req: Request, res: Response) => {
-    const post = parseRequest(createPostSchema, req.body);
-    res.status(201).json(await this.service.create(post));
-  };
+  async create(request: Request, response: Response) {
+    const post = parseRequest(createPostSchema, request.body);
+    response.status(201).json(await this.service.create(post));
+  }
 
-  readonly delete = async (req: Request, res: Response) => {
-    const { id } = parseRequest(postIdSchema, req.params);
+  async delete(request: Request, response: Response) {
+    const { id } = parseRequest(postIdSchema, request.params);
 
     const deleted = await this.service.delete(id);
     if (!deleted) {
-      res.status(404).json({ error: { code: 'NOT_FOUND', message: 'post not found' } });
+      response.status(404).json({ error: { code: 'NOT_FOUND', message: 'post not found' } });
       return;
     }
 
-    res.json(deleted);
-  };
+    response.json(deleted);
+  }
 
-  readonly deleteAll = async (_req: Request, res: Response) => {
-    res.json(await this.service.deleteAll());
-  };
+  async deleteAll(_: Request, response: Response) {
+    response.json(await this.service.deleteAll());
+  }
 }
