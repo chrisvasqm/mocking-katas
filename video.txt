@@ -1,5 +1,0 @@
-{
-  "title": "Mocking with Mosh",
-  "description": "Sample description",
-  "duration": 60
-}
