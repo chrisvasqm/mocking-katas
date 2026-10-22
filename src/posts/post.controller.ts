@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { createPostSchema, postIdSchema } from './post.schema.js';
 import { PostService } from './post.service.js';
+import { parseRequest } from '../validation.js';
 
 export function postRouter(service: PostService) {
   const router = Router();
@@ -10,12 +11,12 @@ export function postRouter(service: PostService) {
   });
 
   router.post('/', async (req, res) => {
-    const post = createPostSchema.parse(req.body);
+    const post = parseRequest(createPostSchema, req.body);
     res.status(201).json(await service.create(post));
   });
 
   router.delete('/:id', async (req, res) => {
-    const { id } = postIdSchema.parse(req.params);
+    const { id } = parseRequest(postIdSchema, req.params);
 
     const deleted = await service.delete(id);
     if (!deleted) {
