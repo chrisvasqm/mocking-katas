@@ -50,7 +50,7 @@ export function postRouter(service: PostService) {
       return;
     }
 
-    res.sendStatus(204);
+    res.json(deleted);
   });
 
   return router;
