@@ -10,9 +10,9 @@ http:
     type: json
     data: |-
       {
-        "username": "mosh",
-        "imageUrl": "https://picsum.photos/id/237/1080/1080",
-        "caption": "Mocking with Mosh"
+        "username": "user_{{$randomUserName}}",
+        "imageUrl": "{{$randomImageUrl}}",
+        "caption": "caption: {{$randomLoremSentence}}"
       }
   auth: none
 
