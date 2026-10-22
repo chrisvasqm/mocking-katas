@@ -31,7 +31,7 @@ pnpm start             # run the bundle
 
 ## API
 
-A [Bruno](https://www.usebruno.com) collection lives in `bruno/`. Open it, pick the `local` environment (`domain`, `id`), and run **Get posts** or **Create post**: Create post stores the new post's id in `id`, so **Delete post** removes that post.
+A [Bruno](https://www.usebruno.com) workspace lives in `bruno/` (`workspace.yml`), with the **Mocking Feed** collection in `bruno/collections/feed/`. Open the workspace, pick the `local` environment (`domain`, `id`), and run **Get posts** or **Create post**: Create post stores the new post's id in `id`, so **Delete post** removes that post.
 
 
 ```sh
