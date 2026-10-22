@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest';
+import { beforeAll, describe, expect, it } from 'vitest';
 import { EqualMatchingInjectorConfig, Mock, Times } from 'moq.ts';
 import { CreatePost, Post } from '../src/posts/post.model.ts';
 import { IPostRepository } from '../src/posts/IPostRepository.ts';
@@ -19,6 +19,10 @@ const post: Post = {
 };
 
 describe('PostService', () => {
+  beforeAll(() => {
+    Mock.options = { injectorConfig: new EqualMatchingInjectorConfig() };
+  });
+
   it('gets all posts', async () => {
     const repository = new Mock<IPostRepository>()
       .setup(instance => instance.findAll())
@@ -32,7 +36,7 @@ describe('PostService', () => {
   });
 
   it('creates a post with full reach for a premium user', async () => {
-    const repository = new Mock<IPostRepository>({ injectorConfig: new EqualMatchingInjectorConfig() })
+    const repository = new Mock<IPostRepository>()
       .setup(instance => instance.create({ ...newPost, reach: 1 }))
       .returnsAsync(post);
     const service = new PostService(repository.object());
@@ -44,7 +48,7 @@ describe('PostService', () => {
   });
 
   it('creates a post with reduced reach for a regular user', async () => {
-    const repository = new Mock<IPostRepository>({ injectorConfig: new EqualMatchingInjectorConfig() })
+    const repository = new Mock<IPostRepository>()
       .setup(instance => instance.create({ ...newPost, reach: 0.7 }))
       .returnsAsync({ ...post, reach: 0.7 });
     const service = new PostService(repository.object());
