@@ -62,7 +62,7 @@ A [Bruno](https://www.usebruno.com) workspace lives in `bruno/` (`workspace.yml`
 | Method | Path | Description | Responses |
 |---|---|---|---|
 | `GET` | `/posts` | List all posts, newest first. | `200` + posts |
-| `POST` | `/posts` | Create a post. Body: `username` (1–40 chars), `image_url` (http/https URL), `caption` (optional, max 2200 chars), `isPremium` (optional boolean, default `false`). The service sets `reach`: `1` when `isPremium` is `true`, `0.7` otherwise. | `201` + post, `400` invalid body |
+| `POST` | `/posts` | Create a post. Body: `username` (1–40 chars), `image_url` (http/https URL), `caption` (optional, max 2200 chars), `is_premium` (optional boolean, default `false`). The service sets `reach`: `1` when `is_premium` is `true`, `0.7` otherwise. | `201` + post, `400` invalid body |
 | `DELETE` | `/posts` | Delete all posts. | `200` + deleted posts |
 | `DELETE` | `/posts/:id` | Delete a post by id (UUID). | `200` + deleted post, `404` not found, `400` invalid id (not a UUID) |
 
@@ -79,7 +79,7 @@ curl localhost:3000/posts
 ```sh
 curl -X POST localhost:3000/posts \
   -H 'content-type: application/json' \
-  -d '{"username":"mosh","image_url":"https://picsum.photos/id/237/1080/1080","caption":"Mocking with Mosh","isPremium":true}'
+  -d '{"username":"mosh","image_url":"https://picsum.photos/id/237/1080/1080","caption":"Mocking with Mosh","is_premium":true}'
 ```
 
 ### Delete post

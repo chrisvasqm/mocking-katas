@@ -22,8 +22,8 @@ export class PostController {
     if (!result.success)
       return response.status(400).send({ error: { code: 'VALIDATION_ERROR', message: 'request is invalid', details: z.flattenError(result.error) } });
 
-    const { isPremium, ...post } = result.data;
-    const created = await this.service.create(post, { isPremium });
+    const { is_premium, ...post } = result.data;
+    const created = await this.service.create(post, { isPremium: is_premium });
 
     response.status(201).send(created);
   }
