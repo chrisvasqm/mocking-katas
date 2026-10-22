@@ -11,7 +11,7 @@ pnpm install
 cp example.env .env
 docker compose up -d --wait   # Postgres on localhost:5432
 pnpm dev                      # generate + apply migrations, then run src/app.ts with tsx in watch mode
-pnpm test                     # run vitest
+pnpm test                     # run vitest in watch mode
 ```
 
 ## Folder structure
