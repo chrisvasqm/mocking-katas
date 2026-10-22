@@ -1,8 +1,9 @@
-import { integer, pgTable, serial, text } from 'drizzle-orm/pg-core';
+import { pgTable, serial, text, timestamp } from 'drizzle-orm/pg-core';
 
-export const videos = pgTable('videos', {
+export const posts = pgTable('posts', {
   id: serial('id').primaryKey(),
-  title: text('title').notNull(),
-  description: text('description').notNull(),
-  duration: integer('duration').notNull(),
+  username: text('username').notNull(),
+  imageUrl: text('image_url').notNull(),
+  caption: text('caption').notNull().default(''),
+  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
 });

@@ -2,14 +2,14 @@
 
 TypeScript exercises on mocking and dependency injection of external dependencies.
 
-A small Express backend that creates and deletes videos, split into layers:
+A small Instagram-style feed backend (Express, no auth) that creates and deletes posts, split into layers:
 
 | Layer | File |
 |---|---|
-| Controller (router) | `src/videos/video.controller.ts` |
-| Service | `src/videos/video.service.ts` |
-| Repository | `src/videos/video.repository.ts` |
-| Model | `src/videos/video.model.ts` |
+| Controller (router) | `src/posts/post.controller.ts` |
+| Service | `src/posts/post.service.ts` |
+| Repository | `src/posts/post.repository.ts` |
+| Model | `src/posts/post.model.ts` |
 | Drizzle schema | `src/db/schema.ts` |
 
 The service tests mock the repository with `moq.ts`, so they need no database.
@@ -32,7 +32,7 @@ pnpm start             # run the bundle
 ## API
 
 ```sh
-curl -X POST localhost:3000/videos -H 'content-type: application/json' \
-  -d '{"title":"Mocking with Mosh","description":"Sample","duration":60}'   # 201 + video
-curl -X DELETE localhost:3000/videos/1                                       # 204, or 404
+curl -X POST localhost:3000/posts -H 'content-type: application/json' \
+  -d '{"username":"mosh","imageUrl":"https://picsum.photos/id/237/1080/1080","caption":"Mocking with Mosh"}'  # 201 + post
+curl -X DELETE localhost:3000/posts/1                                                                      # 204, or 404
 ```
