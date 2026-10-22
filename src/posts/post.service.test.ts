@@ -14,7 +14,7 @@ const post: Post = {
   username: 'mosh',
   image_url: 'https://picsum.photos/id/237/1080/1080',
   caption: 'Mocking with Mosh',
-  createdAt: new Date('2026-10-21T12:00:00Z'),
+  created_at: new Date('2026-10-21T12:00:00Z'),
 };
 
 describe('PostService', () => {
