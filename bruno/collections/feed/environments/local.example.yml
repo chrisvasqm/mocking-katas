@@ -1,8 +1,8 @@
-name: local
+name: example
 variables:
   - name: domain
     value: http://localhost:3000
   - name: id
     value:
       type: number
-      data: "10"
+      data: ""

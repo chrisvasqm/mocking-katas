@@ -1,3 +1,6 @@
 node_modules/
 dist/
 .env
+
+# Bruno local environment (Create post rewrites id)
+bruno/collections/feed/environments/local.yml
