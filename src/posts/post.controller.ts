@@ -14,26 +14,28 @@ export class PostController {
   }
 
   async findAll(_: Request, response: Response) {
-    response.send(await this.service.findAll());
+    const posts = await this.service.findAll();
+
+    response.send(posts);
   }
 
   async create(request: Request, response: Response) {
-    const result = createPostSchema.safeParse(request.body);
-    if (!result.success)
-      return response.status(400).send({ error: { code: 'VALIDATION_ERROR', message: 'request is invalid', details: z.flattenError(result.error) } });
+    const validation = createPostSchema.safeParse(request.body);
+    if (!validation.success)
+      return response.status(400).send(z.flattenError(validation.error));
 
-    const { is_premium, ...post } = result.data;
+    const { is_premium, ...post } = validation.data;
     const created = await this.service.create(post, { isPremium: is_premium });
 
     response.status(201).send(created);
   }
 
   async delete(request: Request, response: Response) {
-    const result = postIdSchema.safeParse(request.params);
-    if (!result.success)
-      return response.status(400).send({ error: { code: 'VALIDATION_ERROR', message: 'request is invalid', details: z.flattenError(result.error) } });
+    const validation = postIdSchema.safeParse(request.params);
+    if (!validation.success)
+      return response.status(400).send(z.flattenError(validation.error));
 
-    const deleted = await this.service.delete(result.data.id);
+    const deleted = await this.service.delete(validation.data.id);
     if (!deleted)
       return response.status(404).send('Post not found.');
 
@@ -42,6 +44,7 @@ export class PostController {
 
   async deleteAll(_: Request, response: Response) {
     const deleted = await this.service.deleteAll();
+
     response.send(deleted);
   }
 }
