@@ -20,6 +20,8 @@ const post: Post = {
   created_at: new Date('2026-10-21T12:00:00Z'),
 };
 
+const withReach = (reach: number) => It.Is<NewPost>(value => isDeepStrictEqual(value, { ...newPost, reach }));
+
 describe('PostService', () => {
   it('gets all posts', async () => {
     const repository = new Mock<PostRepository>()
@@ -38,14 +40,14 @@ describe('PostService', () => {
       .setup(instance => instance.findByUsername(newPost.username))
       .returnsAsync({ username: newPost.username, isPremium: true });
     const repository = new Mock<PostRepository>()
-      .setup(instance => instance.create(It.Is<NewPost>(value => isDeepStrictEqual(value, { ...newPost, reach: 1 }))))
+      .setup(instance => instance.create(withReach(1)))
       .returnsAsync(post);
     const service = new PostService(repository.object(), userRepository.object());
 
     const result = await service.create(newPost);
 
     expect(result).toEqual(post);
-    repository.verify(instance => instance.create(It.Is<NewPost>(value => isDeepStrictEqual(value, { ...newPost, reach: 1 }))), Times.Once());
+    repository.verify(instance => instance.create(withReach(1)), Times.Once());
     userRepository.verify(instance => instance.findByUsername(newPost.username), Times.Once());
   });
 
@@ -54,14 +56,14 @@ describe('PostService', () => {
       .setup(instance => instance.findByUsername(newPost.username))
       .returnsAsync({ username: newPost.username, isPremium: false });
     const repository = new Mock<PostRepository>()
-      .setup(instance => instance.create(It.Is<NewPost>(value => isDeepStrictEqual(value, { ...newPost, reach: 0.7 }))))
+      .setup(instance => instance.create(withReach(0.7)))
       .returnsAsync({ ...post, reach: 0.7 });
     const service = new PostService(repository.object(), userRepository.object());
 
     const result = await service.create(newPost);
 
     expect(result.reach).toBe(0.7);
-    repository.verify(instance => instance.create(It.Is<NewPost>(value => isDeepStrictEqual(value, { ...newPost, reach: 0.7 }))), Times.Once());
+    repository.verify(instance => instance.create(withReach(0.7)), Times.Once());
     userRepository.verify(instance => instance.findByUsername(newPost.username), Times.Once());
   });
 
@@ -70,14 +72,14 @@ describe('PostService', () => {
       .setup(instance => instance.findByUsername(newPost.username))
       .returnsAsync(undefined);
     const repository = new Mock<PostRepository>()
-      .setup(instance => instance.create(It.Is<NewPost>(value => isDeepStrictEqual(value, { ...newPost, reach: 0.7 }))))
+      .setup(instance => instance.create(withReach(0.7)))
       .returnsAsync({ ...post, reach: 0.7 });
     const service = new PostService(repository.object(), userRepository.object());
 
     const result = await service.create(newPost);
 
     expect(result.reach).toBe(0.7);
-    repository.verify(instance => instance.create(It.Is<NewPost>(value => isDeepStrictEqual(value, { ...newPost, reach: 0.7 }))), Times.Once());
+    repository.verify(instance => instance.create(withReach(0.7)), Times.Once());
     userRepository.verify(instance => instance.findByUsername(newPost.username), Times.Once());
   });
 
