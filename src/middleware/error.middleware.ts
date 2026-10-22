@@ -1,13 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
-import { RequestValidationError } from '../validation.ts';
 
 export function errorMiddleware(error: Error & { status?: number }, _: Request, response: Response, next: NextFunction) {
   if (response.headersSent) return next(error);
-
-  if (error instanceof RequestValidationError) {
-    response.status(400).send({ error: { code: 'VALIDATION_ERROR', message: error.message, details: error.details } });
-    return;
-  }
 
   const status = error.status ?? 500;
   if (status === 413) {
