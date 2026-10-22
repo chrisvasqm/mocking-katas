@@ -16,7 +16,7 @@ export class DatabasePostRepository implements PostRepository {
     return created!;
   }
 
-  async delete(id: number): Promise<Post | undefined> {
+  async delete(id: string): Promise<Post | undefined> {
     const [deleted] = await this.database.delete(posts).where(eq(posts.id, id)).returning();
     return deleted;
   }

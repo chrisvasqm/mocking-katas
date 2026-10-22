@@ -12,7 +12,7 @@ export class PostService {
     return this.repository.create(post);
   }
 
-  delete(id: number): Promise<Post | undefined> {
+  delete(id: string): Promise<Post | undefined> {
     return this.repository.delete(id);
   }
 

@@ -1,5 +1,5 @@
 {
-  "id": "8d5b49be-1c9b-4894-bcf4-ee3e4d99f2b1",
+  "id": "77de1da3-38e0-4b05-ada3-5713780ea9a7",
   "prevId": "b8a1e6e9-93da-45e8-8ada-faed234d79d1",
   "version": "7",
   "dialect": "postgresql",
@@ -10,20 +10,10 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "integer",
+          "type": "uuid",
           "primaryKey": true,
           "notNull": true,
-          "identity": {
-            "type": "always",
-            "name": "posts_id_seq",
-            "schema": "public",
-            "increment": "1",
-            "startWith": "1",
-            "minValue": "1",
-            "maxValue": "2147483647",
-            "cache": "1",
-            "cycle": false
-          }
+          "default": "gen_random_uuid()"
         },
         "username": {
           "name": "username",

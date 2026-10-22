@@ -1,7 +1,7 @@
-import { integer, pgTable, text, timestamp } from 'drizzle-orm/pg-core';
+import { pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core';
 
 export const posts = pgTable('posts', {
-  id: integer().primaryKey().generatedAlwaysAsIdentity(),
+  id: uuid().primaryKey().defaultRandom(),
   username: text().notNull(),
   image_url: text().notNull(),
   caption: text().notNull().default(''),
